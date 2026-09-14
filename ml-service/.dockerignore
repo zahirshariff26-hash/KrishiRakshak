@@ -1,0 +1,11 @@
+.env
+.env.*
+.venv
+__pycache__
+*.pyc
+.git
+.gitignore
+models/*.keras
+*.h5
+node_modules
+.DS_Store

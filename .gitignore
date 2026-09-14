@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+env/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Build outputs
+frontend/dist/
+frontend/build/
+backend/dist/
+
+# ML model artifacts (too large for git)
+ml-service/models/*.keras
+!ml-service/models/krishirakshak_mobilenetv2_finetuned.keras
+ml-service/models/*.h5
+ml-service/models/*.pb
+ml-service/models/*.tflite
+ml-service/training/checkpoints/
+ml-service/training/*.keras
+ml-service/training/*.h5
+ml-service/training/datasets/
+ml-service/_test_crop.jpg
+
+# Uploads
+backend/uploads/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Database
+*.sqlite
+*.sqlite3
+*.db

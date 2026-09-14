@@ -1,0 +1,117 @@
+{
+  "app_name": "KrishiRakshak",
+  "tagline": "AI-Powered Crop Health Network",
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "upload": "Diagnose",
+    "history": "History",
+    "community": "Community",
+    "map": "Map",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "guest": "Guest"
+  },
+  "landing": {
+    "hero_title": "Protect Your Crops with AI",
+    "hero_subtitle": "Upload a photo of your crop, get instant AI-powered disease diagnosis and treatment advice.",
+    "get_started": "Get Started",
+    "continue_guest": "Continue as Guest",
+    "feature1_title": "Instant Diagnosis",
+    "feature1_desc": "Upload a leaf photo and get AI disease detection in seconds.",
+    "feature2_title": "Expert Advice",
+    "feature2_desc": "Receive treatment recommendations and IPM guidance.",
+    "feature3_title": "Community",
+    "feature3_desc": "Share observations and learn from other farmers."
+  },
+  "auth": {
+    "login_title": "Welcome Back",
+    "login_subtitle": "Sign in to access your dashboard",
+    "signup_title": "Create Account",
+    "signup_subtitle": "Join KrishiRakshak to track your crop health",
+    "email": "Email",
+    "password": "Password",
+    "name": "Full Name",
+    "login_btn": "Login",
+    "signup_btn": "Sign Up",
+    "no_account": "Don't have an account?",
+    "has_account": "Already have an account?",
+    "guest_note": "Guest users can diagnose crops but cannot save history or post to community.",
+    "login_error": "Login failed. Please check your credentials.",
+    "signup_error": "Signup failed. Please try again."
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "guest_welcome": "Welcome, Guest",
+    "guest_prompt": "Sign up to save your diagnosis history and join the community.",
+    "quick_diagnose": "Quick Diagnose",
+    "recent_activity": "Recent Activity",
+    "no_history": "No diagnosis history yet.",
+    "history_count": "{{count}} diagnoses recorded",
+    "start_first": "Start your first diagnosis!",
+    "fallback_name": "Farmer"
+  },
+  "upload": {
+    "title": "Upload Crop Image",
+    "drag_drop": "Drag & drop your image here, or click to browse",
+    "supported_formats": "Supported: JPG, PNG, WEBP (max 10MB)",
+    "analyzing": "Analyzing your crop image...",
+    "diagnosis_result": "Diagnosis Result",
+    "disease": "Detected Disease",
+    "confidence": "Confidence",
+    "advisory": "Treatment Advisory",
+    "save_result": "Save to History",
+    "saved": "Saved!",
+    "low_confidence": "Low confidence — please capture a clearer image or consult an expert.",
+    "mock_warning": "This is a mock prediction for development purposes.",
+    "new_diagnosis": "New Diagnosis",
+    "prediction_failed": "Prediction failed."
+  },
+  "history": {
+    "title": "Diagnosis History",
+    "empty": "No diagnoses yet. Upload a crop image to get started!",
+    "date": "Date",
+    "disease": "Disease",
+    "confidence": "Confidence",
+    "failed_to_load": "Failed to load history.",
+    "delete_confirm": "Delete this diagnosis?"
+  },
+  "community": {
+    "title": "Community Feed",
+    "empty": "No posts yet. Be the first to share!",
+    "create_post": "Create Post",
+    "caption_placeholder": "Describe what you observed...",
+    "comments": "Comments",
+    "add_comment": "Add a comment...",
+    "login_required": "Login required to post and comment.",
+    "ai_confidence": "AI Confidence:"
+  },
+  "map": {
+    "title": "Crop Health Map",
+    "subtitle": "View reported crop health observations across regions",
+    "unknown": "Unknown",
+    "confidence": "Confidence:",
+    "reported_by": "Reported by:",
+    "disease_reported": "Disease reported",
+    "healthy": "Healthy",
+    "reports_shown": "{{count}} reports shown"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong.",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "submit": "Submit",
+    "back": "Back",
+    "view_all": "View All",
+    "no_data": "No data available."
+  },
+  "footer": {
+    "built_for": "Built for Smart India Hackathon 2026",
+    "sih_ps": "PS: SIH26131",
+    "all_rights": "All rights reserved."
+  }
+}
