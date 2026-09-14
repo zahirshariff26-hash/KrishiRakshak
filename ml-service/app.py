@@ -3,6 +3,7 @@ os.environ['OMP_NUM_THREADS'] = '1'
 os.environ['TF_NUM_INTEROP_THREADS'] = '1'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['PYTHONMALLOC'] = 'malloc'
 
 import gc
 import json
@@ -10,6 +11,7 @@ import numpy as np
 import io
 from pathlib import Path
 from PIL import Image
+import tensorflow as tf
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -229,7 +231,7 @@ def predict():
 
     if MODEL_MODE == 'real' and model is not None:
         try:
-            import tensorflow as tf
+            gc.collect()
 
             img_bytes = file.read()
             img = Image.open(io.BytesIO(img_bytes)).convert('RGB')
@@ -237,12 +239,15 @@ def predict():
             img_array = np.array(img, dtype=np.float32)
             img_array = np.expand_dims(img_array, axis=0)
 
-            predictions = model.predict(img_array, verbose=0)
+            input_tensor = tf.convert_to_tensor(img_array)
+            output = model(input_tensor, training=False)
+            predictions = output.numpy()
+
             predicted_index = int(np.argmax(predictions[0]))
             confidence = float(predictions[0][predicted_index])
             disease_name = class_names[predicted_index]
 
-            del img_array, predictions, img, img_bytes
+            del img_array, predictions, img, img_bytes, input_tensor, output
             gc.collect()
 
             advisory = get_advisory(disease_name, lang)
