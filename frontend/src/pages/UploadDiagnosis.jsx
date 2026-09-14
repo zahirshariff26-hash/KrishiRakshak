@@ -43,7 +43,11 @@ export default function UploadDiagnosis() {
       });
       setResult(res.data);
     } catch (err) {
-      setResult({ error: err.response?.data?.error || t('upload.prediction_failed') });
+      if (!err.response) {
+        setResult({ error: t('upload.network_error') || 'Network error. Please check your connection and try again.' });
+      } else {
+        setResult({ error: err.response?.data?.error || t('upload.prediction_failed') });
+      }
     } finally {
       setLoading(false);
     }

@@ -81,7 +81,8 @@
     "low_confidence": "Low confidence — please capture a clearer image or consult an expert.",
     "mock_warning": "This is a mock prediction for development purposes.",
     "new_diagnosis": "New Diagnosis",
-    "prediction_failed": "Prediction failed."
+    "prediction_failed": "Prediction failed.",
+    "network_error": "Network error. Please check your connection and try again."
   },
   "history": {
     "title": "Diagnosis History",
