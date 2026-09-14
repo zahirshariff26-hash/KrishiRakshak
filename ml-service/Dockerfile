@@ -11,4 +11,4 @@ EXPOSE 5001
 
 ENV FLASK_PORT=5001
 
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:5001", "--timeout", "120"]
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:5001", "--workers", "1", "--threads", "1", "--timeout", "120"]
