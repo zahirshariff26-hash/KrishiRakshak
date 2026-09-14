@@ -115,7 +115,7 @@ export default function Navbar() {
                   {t('nav.logout')}
                 </button>
               </div>
-            ) : !isGuest ? (
+            ) : (
               <div className="flex items-center gap-2">
                 <Link to="/login" className="btn-secondary text-sm py-1.5 px-3">
                   {t('nav.login')}
@@ -124,7 +124,7 @@ export default function Navbar() {
                   {t('nav.signup')}
                 </Link>
               </div>
-            ) : null}
+            )}
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -157,6 +157,24 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {!user && (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-800"
+                >
+                  {t('nav.login')}
+                </Link>
+                <Link
+                  to="/signup"
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-2 rounded-lg text-sm font-medium text-ink-muted dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-800"
+                >
+                  {t('nav.signup')}
+                </Link>
+              </>
+            )}
           </div>
         )}
       </div>

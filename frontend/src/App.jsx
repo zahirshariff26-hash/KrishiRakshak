@@ -23,9 +23,9 @@ function GuestAllowedRoute({ children }) {
 }
 
 function PublicOnlyRoute({ children }) {
-  const { user, isGuest, loading } = useAuth();
+  const { user, loading } = useAuth();
   if (loading) return null;
-  if (user || isGuest) return <Navigate to="/dashboard" replace />;
+  if (user) return <Navigate to="/dashboard" replace />;
   return children;
 }
 
