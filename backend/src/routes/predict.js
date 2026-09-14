@@ -58,19 +58,32 @@ router.post('/', optionalAuth, upload.single('image'), async (req, res) => {
     const mlErr = err.response?.data?.error || err.message;
     console.error('[PREDICT] ML error:', mlErr, '| code:', err.code, '| status:', err.response?.status);
 
-    if (err.code === 'ECONNREFUSED') {
-      return res.status(503).json({ error: 'ML service unavailable. Please try again in a moment.' });
+    const isColdStart =
+      err.code === 'ECONNREFUSED' ||
+      err.code === 'ECONNABORTED' ||
+      err.code === 'ETIMEDOUT' ||
+      err.code === 'ENOTFOUND' ||
+      (err.response && [502, 503, 504].includes(err.response.status));
+
+    if (isColdStart) {
+      return res.status(503).json({
+        error: 'AI service is starting up. Please try again shortly.',
+        error_code: 'ML_WARMING_UP',
+      });
     }
-    if (err.code === 'ECONNABORTED' || err.code === 'ETIMEDOUT') {
-      return res.status(504).json({ error: 'ML service timed out. The model may be loading — please try again.' });
-    }
+
     if (err.response?.status === 400) {
-      return res.status(400).json({ error: err.response?.data?.error || 'Invalid image for ML service' });
+      return res.status(400).json({
+        error: err.response?.data?.error || 'Invalid image. Please upload a clear crop photo.',
+        error_code: 'INVALID_INPUT',
+      });
     }
-    if (err.response?.status === 500) {
-      return res.status(502).json({ error: 'ML prediction error. Please try a different image.' });
-    }
-    res.status(500).json({ error: 'Prediction failed. Please try again.' });
+
+    console.error('[PREDICT] Unexpected error:', err.message);
+    res.status(500).json({
+      error: 'Prediction failed. Please try again.',
+      error_code: 'PREDICTION_FAILED',
+    });
   }
 });
 

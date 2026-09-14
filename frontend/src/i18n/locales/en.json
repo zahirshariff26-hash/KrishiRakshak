@@ -83,6 +83,7 @@
     "mock_warning": "This is a mock prediction for development purposes.",
     "new_diagnosis": "New Diagnosis",
     "prediction_failed": "Prediction failed.",
+    "ml_warming_up": "AI service is starting up. This can take up to a minute on the first request. Please try again shortly.",
     "network_error": "Network error. Please check your connection and try again."
   },
   "history": {

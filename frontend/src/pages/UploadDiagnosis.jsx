@@ -10,6 +10,7 @@ export default function UploadDiagnosis() {
   const { t, i18n } = useTranslation();
   const { user, isGuest } = useAuth();
   const [preview, setPreview] = useState(null);
+  const [lastFile, setLastFile] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -18,6 +19,7 @@ export default function UploadDiagnosis() {
     const file = acceptedFiles[0];
     if (file) {
       setPreview(URL.createObjectURL(file));
+      setLastFile(file);
       setResult(null);
       setSaved(false);
       handlePredict(file);
@@ -44,9 +46,12 @@ export default function UploadDiagnosis() {
       setResult(res.data);
     } catch (err) {
       if (!err.response) {
-        setResult({ error: t('upload.network_error') || 'Network error. Please check your connection and try again.' });
+        setResult({ error: t('upload.network_error') || 'Network error. Please check your connection and try again.', error_code: 'NETWORK_ERROR' });
       } else {
-        setResult({ error: err.response?.data?.error || t('upload.prediction_failed') });
+        setResult({
+          error: err.response?.data?.error || t('upload.prediction_failed'),
+          error_code: err.response?.data?.error_code || 'PREDICTION_FAILED',
+        });
       }
     } finally {
       setLoading(false);
@@ -70,6 +75,7 @@ export default function UploadDiagnosis() {
 
   const handleNew = () => {
     setPreview(null);
+    setLastFile(null);
     setResult(null);
     setSaved(false);
   };
@@ -166,8 +172,20 @@ export default function UploadDiagnosis() {
               )}
 
               {result?.error && (
-                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg mt-4">
-                  {result.error}
+                <div className={`px-4 py-3 rounded-lg mt-4 ${
+                  result.error_code === 'ML_WARMING_UP'
+                    ? 'bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 text-amber-700 dark:text-amber-400'
+                    : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400'
+                }`}>
+                  <p>{result.error}</p>
+                  {result.error_code === 'ML_WARMING_UP' && (
+                    <button
+                      onClick={() => lastFile && handlePredict(lastFile)}
+                      className="mt-2 text-sm font-medium underline hover:no-underline"
+                    >
+                      {t('common.retry')}
+                    </button>
+                  )}
                 </div>
               )}
             </div>
