@@ -43,6 +43,7 @@ export default function Navbar() {
     { to: '/history', label: t('nav.history'), show: !!user },
     { to: '/community', label: t('nav.community'), show: true },
     { to: '/map', label: t('nav.map'), show: true },
+    { to: '/early-warning', label: t('nav.early_warning'), show: true },
   ];
 
   return (

@@ -10,6 +10,7 @@ const predictRoutes = require('./routes/predict');
 const diagnosesRoutes = require('./routes/diagnoses');
 const communityRoutes = require('./routes/community');
 const reportsRoutes = require('./routes/reports');
+const weatherRoutes = require('./routes/weather');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -58,6 +59,7 @@ app.use('/api/predict', predictRoutes);
 app.use('/api/diagnoses', diagnosesRoutes);
 app.use('/api/community', communityRoutes);
 app.use('/api/reports', reportsRoutes);
+app.use('/api/weather', weatherRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'krishirakshak-backend' });

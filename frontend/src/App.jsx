@@ -11,6 +11,7 @@ import UploadDiagnosis from './pages/UploadDiagnosis';
 import History from './pages/History';
 import Community from './pages/Community';
 import MapPage from './pages/MapPage';
+import EarlyWarning from './pages/EarlyWarning';
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
           <Route path="/community" element={<GuestAllowedRoute><Community /></GuestAllowedRoute>} />
           <Route path="/map" element={<GuestAllowedRoute><MapPage /></GuestAllowedRoute>} />
+          <Route path="/early-warning" element={<GuestAllowedRoute><EarlyWarning /></GuestAllowedRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

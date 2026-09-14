@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
-import { Microscope, ClipboardList, Users } from 'lucide-react';
+import { Microscope, ClipboardList, Users, AlertTriangle } from 'lucide-react';
 import api from '../services/api';
 import Footer from '../components/Footer';
+import EarlyWarningCard from '../components/EarlyWarningCard';
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -86,6 +87,10 @@ export default function Dashboard() {
               {t('landing.feature3_desc')}
             </p>
           </Link>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <EarlyWarningCard />
         </div>
 
         <div className="card">
