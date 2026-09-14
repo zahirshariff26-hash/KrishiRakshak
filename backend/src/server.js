@@ -14,21 +14,29 @@ const reportsRoutes = require('./routes/reports');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const defaultOrigins = [
+const explicitOrigins = [
   'http://localhost:5173',
+  'http://localhost:3000',
   'https://krishi-rakshak-orpin.vercel.app',
 ];
 
-const allowedOrigins = [
-  ...defaultOrigins,
-  ...(process.env.FRONTEND_URL || '').split(',').map(o => o.trim()),
-].filter(Boolean);
+if (process.env.FRONTEND_URL) {
+  process.env.FRONTEND_URL.split(',').forEach(o => {
+    const trimmed = o.trim();
+    if (trimmed) explicitOrigins.push(trimmed);
+  });
+}
 
-console.log('[CORS] Allowed origins:', allowedOrigins);
+const dedupedOrigins = [...new Set(explicitOrigins)];
+
+const VercelPreviewRe = /^https:\/\/krishi-rakshak-[a-zA-Z0-9_-]+\.vercel\.app$/;
+
+console.log('[CORS] Explicit origins:', dedupedOrigins);
+console.log('[CORS] Vercel preview pattern: https://krishi-rakshak-*.vercel.app');
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || dedupedOrigins.includes(origin) || VercelPreviewRe.test(origin)) {
       callback(null, true);
     } else {
       console.warn('[CORS] Rejected origin:', origin);
