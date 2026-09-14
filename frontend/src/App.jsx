@@ -4,6 +4,8 @@ import Navbar from './components/Navbar';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import UploadDiagnosis from './pages/UploadDiagnosis';
 import History from './pages/History';
@@ -36,6 +38,8 @@ export default function App() {
           <Route path="/" element={<PublicOnlyRoute><Landing /></PublicOnlyRoute>} />
           <Route path="/login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
           <Route path="/signup" element={<PublicOnlyRoute><SignUp /></PublicOnlyRoute>} />
+          <Route path="/forgot-password" element={<PublicOnlyRoute><ForgotPassword /></PublicOnlyRoute>} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/dashboard" element={<GuestAllowedRoute><Dashboard /></GuestAllowedRoute>} />
           <Route path="/upload" element={<GuestAllowedRoute><UploadDiagnosis /></GuestAllowedRoute>} />
           <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />

@@ -33,15 +33,21 @@ router.post('/', optionalAuth, upload.single('image'), async (req, res) => {
     return res.status(400).json({ error: 'No image uploaded' });
   }
 
+  const mlUrl = process.env.ML_SERVICE_URL;
+
+  if (!mlUrl) {
+    console.error('[PREDICT] ML_SERVICE_URL is not configured');
+    return res.status(500).json({ error: 'ML service not configured' });
+  }
+
   try {
-    const mlUrl = process.env.ML_SERVICE_URL || 'http://localhost:5001';
     const formData = new (require('form-data'))();
     formData.append('image', require('fs').createReadStream(req.file.path), req.file.filename);
     if (req.body.lang) formData.append('lang', req.body.lang);
 
     const mlResponse = await axios.post(`${mlUrl}/predict`, formData, {
       headers: formData.getHeaders(),
-      timeout: 30000,
+      timeout: 120000,
     });
 
     res.json({
@@ -49,11 +55,22 @@ router.post('/', optionalAuth, upload.single('image'), async (req, res) => {
       image_path: `/uploads/${req.file.filename}`,
     });
   } catch (err) {
-    console.error('[PREDICT] Error:', err.message);
+    const mlErr = err.response?.data?.error || err.message;
+    console.error('[PREDICT] ML error:', mlErr, '| code:', err.code, '| status:', err.response?.status);
+
     if (err.code === 'ECONNREFUSED') {
-      return res.status(503).json({ error: 'ML service unavailable' });
+      return res.status(503).json({ error: 'ML service unavailable. Please try again in a moment.' });
     }
-    res.status(500).json({ error: 'Prediction failed' });
+    if (err.code === 'ECONNABORTED' || err.code === 'ETIMEDOUT') {
+      return res.status(504).json({ error: 'ML service timed out. The model may be loading — please try again.' });
+    }
+    if (err.response?.status === 400) {
+      return res.status(400).json({ error: err.response?.data?.error || 'Invalid image for ML service' });
+    }
+    if (err.response?.status === 500) {
+      return res.status(502).json({ error: 'ML prediction error. Please try a different image.' });
+    }
+    res.status(500).json({ error: 'Prediction failed. Please try again.' });
   }
 });
 

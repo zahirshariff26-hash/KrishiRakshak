@@ -39,7 +39,22 @@
     "has_account": "Already have an account?",
     "guest_note": "Guest users can diagnose crops but cannot save history or post to community.",
     "login_error": "Login failed. Please check your credentials.",
-    "signup_error": "Signup failed. Please try again."
+    "signup_error": "Signup failed. Please try again.",
+    "forgot_password": "Forgot password?",
+    "forgot_title": "Reset Password",
+    "forgot_subtitle": "Enter your email and we'll generate a reset link",
+    "forgot_btn": "Generate Reset Link",
+    "forgot_error": "Something went wrong. Please try again.",
+    "back_to_login": "Back to Login",
+    "email_placeholder": "you@example.com",
+    "reset_title": "New Password",
+    "reset_subtitle": "Enter your new password below",
+    "new_password": "New Password",
+    "confirm_password": "Confirm Password",
+    "reset_btn": "Reset Password",
+    "reset_error": "Failed to reset password.",
+    "reset_invalid_title": "Invalid Link",
+    "reset_invalid_msg": "This reset link is invalid or has expired."
   },
   "dashboard": {
     "welcome": "Welcome",
