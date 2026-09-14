@@ -72,7 +72,7 @@ export default function MapPage() {
             <p>{t('common.no_data')}</p>
           </div>
         ) : (
-          <div className="rounded-xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-700" style={{ height: '500px' }}>
+          <div className="rounded-xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-700 h-[350px] sm:h-[500px]">
             <MapContainer
               center={center}
               zoom={7}

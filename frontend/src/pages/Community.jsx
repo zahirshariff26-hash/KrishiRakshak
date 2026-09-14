@@ -169,19 +169,19 @@ export default function Community() {
                 ))}
 
                 {user && (
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex flex-wrap gap-2 mt-2">
                     <input
                       type="text"
                       value={commentText[post.id] || ''}
                       onChange={(e) => setCommentText(prev => ({ ...prev, [post.id]: e.target.value }))}
                       placeholder={t('community.add_comment')}
-                      className="input-field text-sm py-1.5 flex-1"
+                      className="input-field text-sm py-1.5 flex-1 min-w-0"
                       onKeyDown={(e) => e.key === 'Enter' && handleComment(post.id)}
                     />
                     <button
                       onClick={() => handleComment(post.id)}
                       disabled={submittingComment[post.id]}
-                      className="btn-primary text-sm py-1.5 px-3"
+                      className="btn-primary text-sm py-1.5 px-3 shrink-0"
                     >
                       {t('common.submit')}
                     </button>

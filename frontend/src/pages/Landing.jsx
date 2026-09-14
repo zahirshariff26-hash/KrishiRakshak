@@ -35,7 +35,7 @@ export default function Landing() {
             <div className="flex flex-wrap items-center gap-5">
               <Link
                 to="/signup"
-                className="bg-accent hover:bg-accent-500 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-lg"
+                className="bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-8 rounded-xl transition-colors text-lg"
               >
                 {t('landing.get_started')}
               </Link>
@@ -48,7 +48,7 @@ export default function Landing() {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-surface dark:from-[#1A1A16] to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-surface dark:from-[#0a0a0a] to-transparent pointer-events-none" />
       </section>
 
       <section className="max-w-7xl mx-auto px-4 py-16 md:py-24">
@@ -58,13 +58,13 @@ export default function Landing() {
             return (
               <div
                 key={i}
-                className={`text-center transition-shadow hover:shadow-lg rounded-xl p-8 ${
+                className={`text-center transition-shadow hover:shadow-lg rounded-3xl p-8 ${
                   feature.highlight
                     ? 'bg-primary-600 text-white border-2 border-primary-500 p-10 md:p-12'
                     : 'bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700'
                 }`}
               >
-                <div className={`mb-5 ${feature.highlight ? 'text-accent' : 'text-primary-600 dark:text-primary-400'}`}>
+                <div className={`mb-5 ${feature.highlight ? 'text-white' : 'text-primary-600 dark:text-primary-400'}`}>
                   <Icon className="w-12 h-12 mx-auto" />
                 </div>
                 <h3 className={`text-xl font-headline mb-3 ${feature.highlight ? 'text-white' : 'text-ink dark:text-white'}`}>

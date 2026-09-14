@@ -111,7 +111,7 @@ export default function EarlyWarning() {
                 <button
                   key={crop.id}
                   onClick={() => { setSelectedCrop(crop.id); setResult(null); }}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors border ${
+                  className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors border ${
                     selectedCrop === crop.id
                       ? 'bg-primary-600 text-white border-primary-600'
                       : 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-primary-400'
@@ -138,7 +138,7 @@ export default function EarlyWarning() {
             <p className="text-sm text-amber-600 dark:text-amber-400 mb-3">{locationError}</p>
           )}
           <div className="flex flex-wrap gap-2 items-end">
-            <div className="flex-1 min-w-[120px]">
+            <div className="flex-1 min-w-0">
               <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Latitude</label>
               <input
                 type="number"
@@ -149,7 +149,7 @@ export default function EarlyWarning() {
                 className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
               />
             </div>
-            <div className="flex-1 min-w-[120px]">
+            <div className="flex-1 min-w-0">
               <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Longitude</label>
               <input
                 type="number"

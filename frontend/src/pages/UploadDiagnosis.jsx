@@ -88,7 +88,7 @@ export default function UploadDiagnosis() {
         {!preview ? (
           <div
             {...getRootProps()}
-            className={`border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-colors ${
+            className={`border-2 border-dashed rounded-xl p-6 sm:p-12 text-center cursor-pointer transition-colors ${
               isDragActive
                 ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/10'
                 : 'border-gray-300 dark:border-gray-600 hover:border-primary-400'
