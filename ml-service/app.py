@@ -1,5 +1,6 @@
 import os
 import json
+from pathlib import Path
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -13,10 +14,14 @@ CORS(app)
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
 
-MODEL_MODE = os.getenv('MODEL_MODE', 'mock')
+BASE_DIR = Path(__file__).resolve().parent
+
+_class_names_default = os.getenv('CLASS_NAMES_PATH', str(BASE_DIR / 'models' / 'class_names.json'))
+_model_default = os.getenv('MODEL_PATH', str(BASE_DIR / 'models' / 'krishirakshak_mobilenetv2_finetuned.keras'))
+
 _model_loaded = False
-MODEL_PATH = os.getenv('MODEL_PATH', './models/plant_disease_model.keras')
-CLASS_NAMES_PATH = os.getenv('CLASS_NAMES_PATH', './models/class_names.json')
+MODEL_PATH = _model_default
+CLASS_NAMES_PATH = _class_names_default
 CONFIDENCE_THRESHOLD = float(os.getenv('CONFIDENCE_THRESHOLD', '0.5'))
 
 model = None
@@ -119,22 +124,37 @@ GENERIC_ADVISORY = {
 
 def load_model():
     global model, class_names, MODEL_MODE, _model_loaded
-    if MODEL_MODE == 'real':
-        try:
-            import tensorflow as tf
-            if os.path.exists(MODEL_PATH):
-                model = tf.keras.models.load_model(MODEL_PATH)
-                with open(CLASS_NAMES_PATH, 'r') as f:
-                    class_names = json.load(f)
-                _model_loaded = True
-                print(f"[ML] Real model loaded from {MODEL_PATH}")
-                print(f"[ML] Classes: {len(class_names)}")
-            else:
-                print(f"[ML] Model not found at {MODEL_PATH}, falling back to mock mode")
-                MODEL_MODE = 'mock'
-        except Exception as e:
-            print(f"[ML] Error loading model: {e}, falling back to mock mode")
-            MODEL_MODE = 'mock'
+
+    env_mode = os.getenv('MODEL_MODE', '').strip().lower()
+    model_exists = Path(MODEL_PATH).is_file()
+    class_names_exists = Path(CLASS_NAMES_PATH).is_file()
+
+    print(f"[ML] Resolved MODEL_PATH:      {MODEL_PATH}")
+    print(f"[ML] Resolved CLASS_NAMES_PATH: {CLASS_NAMES_PATH}")
+    print(f"[ML] Model file exists:         {model_exists}")
+    print(f"[ML] Class names file exists:   {class_names_exists}")
+    print(f"[ML] MODEL_MODE env:            {env_mode!r}")
+
+    if env_mode == 'mock':
+        print("[ML] MODEL_MODE explicitly set to 'mock' — skipping real model load")
+        return
+
+    if not model_exists:
+        print("[ML] Model file not found — falling back to mock mode")
+        return
+
+    try:
+        import tensorflow as tf
+        print(f"[ML] TensorFlow {tf.__version__} — loading model from {MODEL_PATH}")
+        model = tf.keras.models.load_model(MODEL_PATH)
+        with open(CLASS_NAMES_PATH, 'r') as f:
+            class_names = json.load(f)
+        MODEL_MODE = 'real'
+        _model_loaded = True
+        print(f"[ML] Real model loaded successfully — {len(class_names)} classes")
+    except Exception as e:
+        print(f"[ML] Error loading model: {e} — falling back to mock mode")
+        MODEL_MODE = 'mock'
 
 load_model()
 
