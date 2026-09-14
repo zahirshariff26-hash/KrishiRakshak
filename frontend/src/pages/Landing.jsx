@@ -48,7 +48,7 @@ export default function Landing() {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-surface dark:from-[#1A1A16] to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-surface dark:from-[#1A1A16] to-transparent pointer-events-none" />
       </section>
 
       <section className="max-w-7xl mx-auto px-4 py-16 md:py-24">
