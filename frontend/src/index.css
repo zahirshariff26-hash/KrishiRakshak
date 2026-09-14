@@ -5,32 +5,61 @@
 @layer base {
   body {
     @apply bg-surface font-body text-ink transition-colors duration-200;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   .dark body,
   .dark {
-    background-color: #1A1A16;
+    background-color: #0a0a0a;
     @apply text-gray-100;
+  }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  img, video, svg {
+    max-width: 100%;
+    height: auto;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-accent hover:bg-accent-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-primary-400 hover:bg-primary-500 text-white font-semibold py-2.5 px-5 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+    &:hover:not(:disabled) {
+      transform: scale(1.02);
+    }
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
   }
   .btn-secondary {
-    @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-ink dark:text-gray-200 font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+    @apply bg-primary-50 hover:bg-primary-100 dark:bg-gray-700 dark:hover:bg-gray-600 text-primary-600 dark:text-gray-200 font-semibold py-2.5 px-5 rounded-xl border border-primary-200 dark:border-gray-600 transition-all duration-200;
+    &:hover {
+      transform: scale(1.02);
+    }
+    &:active {
+      transform: scale(0.98);
+    }
   }
   .btn-outline {
-    @apply border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+    @apply border-2 border-primary-400 text-primary-500 hover:bg-primary-400 hover:text-white font-semibold py-2.5 px-5 rounded-xl transition-all duration-200;
+    &:hover {
+      transform: scale(1.02);
+    }
+    &:active {
+      transform: scale(0.98);
+    }
   }
   .card {
-    @apply bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 p-6;
+    @apply bg-white dark:bg-gray-900 rounded-3xl shadow-soft border border-primary-100 dark:border-gray-800 p-6;
   }
   .input-field {
-    @apply w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-ink dark:text-gray-100 focus:ring-2 focus:ring-primary-400 focus:border-primary-400 outline-none transition-all duration-200;
+    @apply w-full min-w-0 px-4 py-3 rounded-xl border border-primary-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-ink dark:text-gray-100 focus:ring-2 focus:ring-primary-400/40 focus:border-primary-400 outline-none transition-all duration-200;
   }
   .page-container {
-    @apply min-h-screen flex flex-col;
+    @apply min-h-screen flex flex-col overflow-x-hidden;
   }
 }
