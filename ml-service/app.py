@@ -178,105 +178,29 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+
+
+
+ADVISORY_ALIASES = {
+    "Tomato___Bacterial_spot": "Tomato_Bacterial_spot",
+    "Tomato___Early_blight": "Tomato_Early_blight",
+    "Tomato___Late_blight": "Tomato_Late_blight",
+    "Tomato___Leaf_Mold": "Tomato_Leaf_Mold",
+    "Tomato___Septoria_leaf_spot": "Tomato_Septoria_leaf_spot",
+    "Tomato___Spider_mites Two-spotted_spider_mite": "Tomato_Spider_mites",
+    "Tomato___Target_Spot": "Tomato_Target_Spot",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus": "Tomato_YellowLeafCurl_Virus",
+    "Tomato___Tomato_mosaic_virus": "Tomato_Mosaic_virus",
+    "Pepper,_bell___Bacterial_spot": "Pepper__bell___Bacterial_spot",
+    "Pepper,_bell___healthy": "Pepper__bell___healthy",
+}
+
 def get_advisory(disease_name, lang='en'):
+    disease_name = ADVISORY_ALIASES.get(disease_name, disease_name)
     clean_name = disease_name.replace(' ', '_').replace('(', '').replace(')', '')
+    
     for key in ADVISORY_DB:
         if key.lower().replace(' ', '_') in clean_name.lower() or clean_name.lower() in key.lower().replace(' ', '_'):
             return ADVISORY_DB[key].get(lang, ADVISORY_DB[key].get('en', ''))
+    
     return GENERIC_ADVISORY.get(lang, GENERIC_ADVISORY.get('en', ''))
-
-
-def mock_predict(filename):
-    import random
-    mock_diseases = [
-        "Tomato_Bacterial_spot",
-        "Tomato_Early_blight",
-        "Tomato_Leaf_Mold",
-        "Tomato_YellowLeafCurl_Virus",
-        "Tomato_Mosaic_virus",
-        "Tomato_Septoria_leaf_spot",
-        "Tomato_Spider_mites",
-        "Tomato_Target_Spot",
-        "Pepper__bell___Bacterial_spot",
-        "Potato___Early_blight",
-    ]
-    disease = random.choice(mock_diseases)
-    confidence = round(random.uniform(0.65, 0.98), 4)
-    return disease, confidence
-
-
-@app.route('/health', methods=['GET'])
-def health():
-    return jsonify({
-        "status": "ok",
-        "mode": MODEL_MODE,
-        "model_loaded": _model_loaded
-    })
-
-
-@app.route('/predict', methods=['POST'])
-def predict():
-    if 'image' not in request.files:
-        return jsonify({"error": "No image provided"}), 400
-
-    file = request.files['image']
-    if file.filename == '':
-        return jsonify({"error": "No image selected"}), 400
-
-    if not allowed_file(file.filename):
-        return jsonify({"error": "Invalid file type. Allowed: png, jpg, jpeg, webp"}), 400
-
-    filename = secure_filename(file.filename)
-    lang = request.form.get('lang', 'en')
-
-    if MODEL_MODE == 'real' and model is not None:
-        try:
-            gc.collect()
-
-            img_bytes = file.read()
-            img = Image.open(io.BytesIO(img_bytes)).convert('RGB')
-            img = img.resize((224, 224))
-            img_array = np.array(img, dtype=np.float32)
-            img_array = np.expand_dims(img_array, axis=0)
-
-            input_tensor = tf.convert_to_tensor(img_array)
-            output = model(input_tensor, training=False)
-            predictions = output.numpy()
-
-            predicted_index = int(np.argmax(predictions[0]))
-            confidence = float(predictions[0][predicted_index])
-            disease_name = class_names[predicted_index]
-
-            del img_array, predictions, img, img_bytes, input_tensor, output
-            gc.collect()
-
-            advisory = get_advisory(disease_name, lang)
-
-            if confidence < CONFIDENCE_THRESHOLD:
-                advisory = f"AI confidence is low ({confidence:.1%}). Please capture a clearer image or seek expert verification. {advisory}"
-
-            return jsonify({
-                "mode": "real",
-                "disease_name": disease_name,
-                "confidence": confidence,
-                "treatment_advice": advisory
-            })
-        except Exception as e:
-            gc.collect()
-            return jsonify({"error": f"Prediction failed: {str(e)}"}), 500
-    else:
-        disease_name, confidence = mock_predict(filename)
-        advisory = get_advisory(disease_name, lang)
-
-        return jsonify({
-            "mode": "mock",
-            "disease_name": disease_name,
-            "confidence": confidence,
-            "treatment_advice": advisory
-        })
-
-
-if __name__ == '__main__':
-    port = int(os.getenv('FLASK_PORT', 5001))
-    print(f"[ML] Starting KrishiRakshak ML Service on port {port} in {MODEL_MODE} mode")
-    app.run(host='0.0.0.0', port=port, debug=True)
